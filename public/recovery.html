@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ms-MY">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#18364d" />
+    <title>Pulihkan Aplikasi | Jom Matematik PPKI</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #f7fafa; color: #18364d; font: 16px/1.6 system-ui, sans-serif; }
+      main { max-width: 600px; margin: 0 auto; padding: 48px 24px; }
+      h1 { font-size: 30px; line-height: 1.25; margin: 12px 0 20px; }
+      .brand { color: #168f83; font-weight: 700; }
+      button, .open { display: block; width: 100%; min-height: 48px; margin: 14px 0; padding: 12px 16px; border-radius: 12px; font: inherit; font-weight: 700; text-align: center; cursor: pointer; }
+      button { background: #168f83; color: white; border: 0; }
+      button:disabled { opacity: .6; cursor: wait; }
+      .open { border: 1px solid #b9e2dc; color: #168f83; text-decoration: none; }
+      :focus-visible { outline: 3px solid #d78e15; outline-offset: 4px; }
+      summary { cursor: pointer; font-weight: 700; padding: 8px 0; }
+      #status { min-height: 24px; color: #526b75; }
+      code { word-break: break-all; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p class="brand">Jom Matematik PPKI</p>
+      <h1>Pulihkan paparan aplikasi</h1>
+      <p>Jika skrin kosong atau masih memaparkan versi lama, sambungkan internet dan pulihkan cache aplikasi ini sahaja.</p>
+      <p><strong>Kemajuan murid tidak dipadam.</strong> Tindakan ini tidak mengosongkan LocalStorage, kuki atau data laman lain.</p>
+      <button id="repair" type="button">Pulihkan Cache Aplikasi</button>
+      <p id="status" role="status" aria-live="polite"></p>
+      <a class="open" id="open-app" href="./">Buka Aplikasi Semula</a>
+      <details>
+        <summary>Masih tidak dapat membuka aplikasi?</summary>
+        <ol>
+          <li>Di GitHub, pilih <strong>Settings &gt; Pages &gt; Source: GitHub Actions</strong>.</li>
+          <li>Buka <strong>Actions &gt; Terbitkan Jom Matematik PPKI &gt; Run workflow</strong> pada main.</li>
+          <li>Pastikan tugas binaan dan penerbitan kedua-duanya berjaya. Laman mesti menggunakan keluaran <code>dist/</code>, bukan kod mentah <code>src/main.tsx</code>.</li>
+          <li>Tutup tab atau PWA lama, kemudian buka URL daripada keputusan penerbitan. Cuba Chrome, Edge atau Safari yang terkini.</li>
+        </ol>
+        <p>Jika masih gagal, kongsikan URL GitHub Pages dan mesej ralat Console untuk semakan. Jangan kongsikan kata laluan atau token.</p>
+      </details>
+      <noscript>Aktifkan JavaScript untuk menggunakan fungsi pemulihan. Anda masih boleh membaca panduan penerbitan di atas.</noscript>
+    </main>
+    <script>
+      (function () {
+        var base = new URL('./', window.location.href);
+        var button = document.getElementById('repair');
+        var status = document.getElementById('status');
+        var open = document.getElementById('open-app');
+        function refreshLink() {
+          var url = new URL('index.html', base);
+          url.searchParams.set('repair', String(Date.now()));
+          open.href = url.href;
+        }
+        refreshLink();
+        button.addEventListener('click', async function () {
+          if (!navigator.onLine) {
+            status.textContent = 'Sila sambungkan internet sebelum memulihkan cache.';
+            return;
+          }
+          button.disabled = true;
+          status.textContent = 'Sedang memulihkan cache. Data kemajuan murid dikekalkan...';
+          try {
+            if ('serviceWorker' in navigator) {
+              var expectedScript = new URL('sw.js', base).href;
+              var registrations = await navigator.serviceWorker.getRegistrations();
+              await Promise.all(registrations.filter(function (registration) {
+                return registration.scope === base.href && [registration.active, registration.waiting, registration.installing].some(function (worker) {
+                  return worker && worker.scriptURL === expectedScript;
+                });
+              }).map(function (registration) { return registration.unregister(); }));
+            }
+            if ('caches' in window) {
+              var prefix = 'jom-matematik-ppki:' + encodeURIComponent(base.pathname) + ':';
+              var names = await caches.keys();
+              await Promise.all(names.filter(function (name) {
+                return name.indexOf(prefix) === 0;
+              }).map(function (name) { return caches.delete(name); }));
+            }
+            refreshLink();
+            status.textContent = 'Cache aplikasi telah dipulihkan. Kemajuan murid dikekalkan. Tekan Buka Aplikasi Semula.';
+          } catch (error) {
+            status.textContent = 'Pelayar tidak membenarkan pemulihan cache. Cuba buka laman dalam tab biasa dan semak panduan di bawah.';
+          } finally {
+            button.disabled = false;
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>

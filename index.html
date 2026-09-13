@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="ms-MY">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#18364D" />
+    <meta name="description" content="Jom Matematik PPKI - Pengembaraan Dunia Angka" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Jom Matematik" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png" vite-ignore />
+    <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png" vite-ignore />
+    <title>Jom Matematik PPKI | Pengembaraan Dunia Angka</title>
+  </head>
+  <body>
+    <div id="root">
+      <main id="startup-panel" style="box-sizing:border-box;max-width:580px;min-height:100vh;margin:0 auto;padding:56px 24px;display:flex;flex-direction:column;justify-content:center;gap:18px;font:16px/1.6 system-ui,sans-serif;color:#18364d">
+        <p style="margin:0;font-weight:700;color:#168f83">Jom Matematik PPKI</p>
+        <h1 id="startup-title" style="margin:0;font-size:30px;line-height:1.25">Sedang membuka aplikasi...</h1>
+        <p id="startup-message" role="status" style="margin:0">Sila tunggu sebentar. Jika aplikasi tidak muncul, semak penerbitan GitHub Pages atau buka halaman pemulihan di bawah.</p>
+        <a href="./recovery.html" style="padding:12px 18px;background:#168f83;color:white;border-radius:12px;text-align:center;font-weight:700;text-decoration:none">Pulihkan Aplikasi</a>
+        <details>
+          <summary style="cursor:pointer;padding:10px 0;font-weight:700">Panduan jika skrin tidak berubah</summary>
+          <p>Di GitHub, buka <strong>Settings &gt; Pages</strong> dan pilih <strong>Source: GitHub Actions</strong>. Jalankan aliran kerja <strong>Terbitkan Jom Matematik PPKI</strong> dan tunggu kedua-dua tugas berjaya.</p>
+          <p>GitHub Pages mesti menerbitkan keluaran <strong>dist/</strong>, bukan fail TypeScript di dalam src/. Jangan pilih Deploy from a branch untuk kod sumber ini.</p>
+          <p>Halaman pemulihan tidak memadam kemajuan murid dalam LocalStorage.</p>
+        </details>
+      </main>
+    </div>
+    <noscript>Sila aktifkan JavaScript untuk menggunakan Jom Matematik PPKI.</noscript>
+    <script>
+      (function () {
+        function explainFailure() {
+          var title = document.getElementById('startup-title');
+          var message = document.getElementById('startup-message');
+          if (!title || !message) return;
+          title.textContent = 'Aplikasi belum dapat dibuka';
+          message.textContent = 'Fail aplikasi mungkin belum dibina, tidak berjaya dimuatkan, atau pelayar masih menggunakan versi lama. Gunakan panduan di bawah; jangan padam data murid.';
+        }
+        window.addEventListener('error', explainFailure, true);
+        window.addEventListener('unhandledrejection', explainFailure);
+        window.setTimeout(explainFailure, 15000);
+      })();
+    </script>
+    <script type="module" src="./src/main.tsx"></script>
+  </body>
+</html>
