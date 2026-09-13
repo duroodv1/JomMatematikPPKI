@@ -56,8 +56,8 @@ const defaultProgress: UserProgress = {
   },
   unlockedStickers: ['stk-owl', 'stk-cat', 'stk-apple'],
   activeMascot: 'owl',
-  userName: 'Aiman Bijak',
-  schoolName: 'PPKI SK Bintang Gemilang',
+  userName: 'Murid Bijak',
+  schoolName: 'PPKI SK Dengkil',
   avatar: '🧒',
   lastPlayedDate: new Date().toISOString()
 };
