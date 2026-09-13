@@ -93,6 +93,10 @@ async function prepare() {
     }));
   }
   console.info('[PWA] TypeScript source check passed.');
+  // Restore dotfiles before any check reads them, because uploading through
+  // github.com silently omits every file whose name begins with a dot.
+  for (const relativePath of Object.keys(RESTORABLE_FILES)) await readOrRestore(relativePath);
+
   const workerChecks = await optionalModule('../tests/sw-checks.mjs');
   if (workerChecks) console.info(`[PWA] ${await workerChecks.runServiceWorkerChecks()} service worker checks passed.`);
   const archiveChecks = await optionalModule('../tests/source-checks.mjs');
