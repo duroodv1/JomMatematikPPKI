@@ -1,0 +1,67 @@
+name: Terbitkan Jom Matematik PPKI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Bina dan semak PWA
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Ambil kod sumber
+        uses: actions/checkout@v5
+
+      - name: Sediakan Node.js
+        uses: actions/setup-node@v5
+        with:
+          # Versi ditetapkan terus di sini. Fail tersembunyi seperti .nvmrc
+          # kerap tertinggal apabila fail dimuat naik melalui github.com.
+          node-version: '22'
+          cache: npm
+
+      - name: Pasang kebergantungan
+        # npm ci gagal jika package.json dan package-lock.json tidak sepadan,
+        # contohnya apabila hanya sebahagian fail dimuat naik semula.
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
+
+      - name: Bina aplikasi dan sahkan keluaran
+        run: npm run build
+
+      - name: Sediakan GitHub Pages
+        uses: actions/configure-pages@v6
+
+      - name: Muat naik keluaran laman
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+          # Diperlukan supaya fail .nojekyll dalam dist turut diterbitkan.
+          include-hidden-files: true
+
+  deploy:
+    name: Terbitkan laman
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Terbitkan ke GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
