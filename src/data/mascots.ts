@@ -3,7 +3,7 @@ import { MascotInfo, StickerItem } from '../types';
 export const MASCOTS: MascotInfo[] = [
   {
     id: 'owl',
-    name: 'Cikgu Hantu Bijak',
+    name: 'Cikgu Burung hantu Bijak',
     title: 'Maskot Utama Jom Matematik PPKI',
     avatar: '🦉',
     image: './icon-app.png',
