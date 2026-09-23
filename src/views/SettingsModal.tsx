@@ -1,7 +1,6 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
-import { X, Volume2, VolumeX, Sparkles, Sliders } from 'lucide-react';
-import { InstallPanel } from '../components/InstallPanel';
+import { X, Volume2, VolumeX, Sparkles, Sliders, FileArchive, ChevronRight } from 'lucide-react';
 
 export const SettingsModal: React.FC = () => {
   const { 
@@ -9,7 +8,7 @@ export const SettingsModal: React.FC = () => {
     settings, 
     updateSettings, 
     triggerTap, 
-    speakText
+    speakText 
   } = useApp();
 
   const toggleSoundFx = () => {
@@ -63,8 +62,17 @@ export const SettingsModal: React.FC = () => {
 
         {/* Kandungan */}
         <div className="p-4 sm:p-6 space-y-3 max-h-[70vh] overflow-y-auto">
-          {/* Pasang aplikasi & status luar talian (kelihatan kepada semua pengguna) */}
-          <InstallPanel />
+          <button
+            onClick={() => { triggerTap(); setActiveModal('pwa-source'); }}
+            className="flex min-h-16 w-full items-center gap-3 rounded-2xl border border-[#B9E2DC] bg-[#F1FBF9] p-3 text-left transition hover:bg-[#DFF4F0]"
+          >
+            <FileArchive size={24} className="shrink-0 text-[#168F83]" />
+            <span className="flex-1">
+              <strong className="block text-sm font-bold text-[#18364D]">PWA dan Kod Sumber</strong>
+              <span className="mt-1 block text-xs text-[#526b75]">Pasang PWA atau sediakan ZIP untuk GitHub.</span>
+            </span>
+            <ChevronRight size={18} className="shrink-0 text-[#168F83]" />
+          </button>
 
           {/* Kesan Bunyi */}
           <div className="p-3 bg-[#F7FAFA] rounded-2xl border border-[#E2EDED] flex items-center justify-between">

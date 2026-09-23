@@ -2,26 +2,32 @@ import JSZip from 'jszip';
 
 export const SOURCE_ZIP_NAME = 'JomMatematikPPKI-GitHub.zip';
 export const SOURCE_ROOT = 'JomMatematikPPKI-PWA';
+// Files the published application cannot run or be rebuilt without.
 export const REQUIRED_SOURCE_FILES = [
   'README.md', 'package.json', 'package-lock.json', 'tsconfig.json', 'vite.config.ts',
-  'postcss.config.mjs', 'index.html',
-  'PANDUAN-GITHUB.md', '.github/workflows/deploy-pages.yml',
+  'postcss.config.mjs', 'index.html', '.gitignore',
+  'PANDUAN-GITHUB.md', '.github/workflows/deploy-pages.yml', '.gitattributes', '.nvmrc',
   'src/App.tsx', 'src/main.tsx', 'src/index.css', 'src/vite-env.d.ts',
   'src/components/ApplicationBoundary.tsx', 'src/utils/saved-state.ts',
   'src/data/moduleQuizzes.ts', 'src/context/AppContext.tsx',
   'src/pwa/client.ts', 'src/pwa/source-bundle.ts', 'src/pwa/source-archive.mjs',
-  'src/pwa/source-archive.d.mts', 'src/components/InstallPanel.tsx',
-  'scripts/prepare-pwa.mjs', 'scripts/prepare-pwa.d.mts', 'tests/sw-checks.mjs', 'tests/sw.test.mjs',
-  'tests/github-pages-check.d.mts', 'tests/browser-check.d.mts',
-  'tests/source-checks.mjs', 'tests/source.test.mjs', 'tests/source-bundle-check.mjs',
-  'tests/github-checks.mjs', 'tests/github-pages-check.mjs',
-  'tests/browser-check.mjs',
+  'src/pwa/source-archive.d.mts', 'src/views/PwaSourceModal.tsx', 'src/components/SourceDownload.tsx',
+  'src/components/GitHubGuide.tsx',
+  'scripts/prepare-pwa.mjs',
   'public/sw.js', 'public/manifest.webmanifest', 'public/pwa-version.js', 'public/_headers',
   'public/recovery.html',
   'public/.nojekyll',
   'public/icon-app.png', 'public/icons/icon-192.png', 'public/icons/icon-512.png',
   'public/icons/icon-maskable-512.png', 'public/icons/apple-touch-icon.png',
   'licenses/fredoka-OFL.txt', 'licenses/nunito-OFL.txt',
+];
+
+// Verification files. A repository can still build and publish without them.
+export const OPTIONAL_SOURCE_FILES = [
+  'tests/sw-checks.mjs', 'tests/sw.test.mjs',
+  'tests/source-checks.mjs', 'tests/source.test.mjs', 'tests/source-bundle-check.mjs',
+  'tests/github-checks.mjs', 'tests/github-pages-check.mjs',
+  'tests/browser-check.mjs', 'tests/upload-recovery-check.mjs',
 ];
 
 function safePath(name) {

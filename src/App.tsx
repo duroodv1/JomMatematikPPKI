@@ -15,6 +15,7 @@ import { ParentDashboardModal } from './views/ParentDashboardModal';
 import { SettingsModal } from './views/SettingsModal';
 import { MascotSelectorModal } from './views/MascotSelectorModal';
 import { TrophiesModal } from './views/TrophiesModal';
+import { PwaSourceModal } from './views/PwaSourceModal';
 import { startPwa } from './pwa/client';
 
 const MainContent: React.FC = () => {
@@ -57,6 +58,7 @@ const MainContent: React.FC = () => {
       {activeModal === 'settings' && <SettingsModal />}
       {activeModal === 'mascot-selector' && <MascotSelectorModal />}
       {activeModal === 'trophies' && <TrophiesModal />}
+      {activeModal === 'pwa-source' && <PwaSourceModal />}
     </div>
   );
 };
